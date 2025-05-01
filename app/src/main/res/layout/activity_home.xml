@@ -6,7 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.HomeActivity">
-
+    <com.assessment.zhihunes.customview.CustomToolBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
