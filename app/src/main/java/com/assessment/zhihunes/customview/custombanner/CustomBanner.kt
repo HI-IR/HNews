@@ -11,8 +11,7 @@ import android.widget.LinearLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.assessment.zhihunes.databinding.CustomBannerBinding
 import com.assessment.zhihunes.utils.SizeUtils
-import com.assessment.zhihunes.view.HomeAdapter
-import kotlin.math.log
+import com.assessment.zhihunes.view.HomeBannerAdapter
 
 
 /**
@@ -26,7 +25,7 @@ class CustomBanner @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
-    private lateinit var adapter: HomeAdapter
+    private lateinit var adapter: HomeBannerAdapter
 
     //把View添加到容器,并初始化
     private val binding: CustomBannerBinding
@@ -83,7 +82,7 @@ class CustomBanner @JvmOverloads constructor(
      * 设置轮播图数据
      * @param adapter Vp2的适配器
      */
-    fun setData(adapter: HomeAdapter) {
+    fun setData(adapter: HomeBannerAdapter) {
         this.adapter = adapter
         binding.vp2Custombanner.setAdapter(adapter)
 
@@ -91,6 +90,9 @@ class CustomBanner @JvmOverloads constructor(
         binding.pointContainer.removeAllViews()
         viewList.clear()
 
+        //设置初始页面在VP2的中间最靠近 取模等于0的位置(以防轮播图首页不正确)
+        binding.vp2Custombanner.setCurrentItem(Int.MAX_VALUE/2 -(Int.MAX_VALUE/2 % adapter.topList.size),false)
+        Log.d("ld","${Int.MAX_VALUE/2 -(Int.MAX_VALUE % adapter.topList.size)}");
         //动态增加小圆点个数(因为做了假无限，所以adapter.itemCount不是真实的值)
         setUpPoint(adapter.topList.size)
 

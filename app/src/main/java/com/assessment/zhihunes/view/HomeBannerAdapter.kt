@@ -10,15 +10,14 @@ import com.assessment.zhihunes.databinding.ItemBannerBinding
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import java.security.AccessController.getContext
 
 /**
- * description ： TODO:类的作用
+ * description ： 首页的轮播图的Adapter
  * author : HI-IR
  * email : qq2420226433@outlook.com
  * date : 2025/5/1 23:31
  */
-class HomeAdapter( val topList:List<TopStory>,private val context: Context) : RecyclerView.Adapter<HomeAdapter.ViewHolder>(){
+class HomeBannerAdapter(val topList:List<TopStory>, private val context: Context) : RecyclerView.Adapter<HomeBannerAdapter.ViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

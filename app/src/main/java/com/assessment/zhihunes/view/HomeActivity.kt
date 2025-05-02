@@ -7,7 +7,7 @@ import com.assessment.zhihunes.databinding.ActivityHomeBinding
 import com.assessment.zhihunes.viewmodel.HomeViewModel
 
 class HomeActivity : AppCompatActivity() {
-    private var adapter: HomeAdapter? = null
+    private var adapter: HomeBannerAdapter? = null
 
     private val binding: ActivityHomeBinding by lazy {
         ActivityHomeBinding.inflate(layoutInflater)
@@ -32,8 +32,7 @@ class HomeActivity : AppCompatActivity() {
         viewModel.LatestNews.observe(this) {
             if (adapter == null) {
                 //如果适配器没被初始化则初始化并且设置适配器
-                adapter = HomeAdapter(it.top_stories, this@HomeActivity)
-
+                adapter = HomeBannerAdapter(it.top_stories, this@HomeActivity)
                 binding.bannerHome.setData(adapter!!)
             } else {
                 adapter!!.notifyDataSetChanged()
