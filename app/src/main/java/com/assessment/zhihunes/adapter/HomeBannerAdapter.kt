@@ -1,4 +1,4 @@
-package com.assessment.zhihunes.view
+package com.assessment.zhihunes.adapter
 
 import TopStory
 import android.content.Context

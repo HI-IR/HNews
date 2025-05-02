@@ -30,7 +30,7 @@ interface ApiService {
      * 过往消息
      * @param date 时间
      */
-    @GET("before/{date}")
+    @GET("news/before/{date}")
     suspend fun getNewsByDate(@Path("date") date:String):BeforeNews
 
 

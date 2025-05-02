@@ -11,7 +11,7 @@ import android.widget.LinearLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.assessment.zhihunes.databinding.CustomBannerBinding
 import com.assessment.zhihunes.utils.SizeUtils
-import com.assessment.zhihunes.view.HomeBannerAdapter
+import com.assessment.zhihunes.adapter.HomeBannerAdapter
 
 
 /**
@@ -72,8 +72,14 @@ class CustomBanner @JvmOverloads constructor(
     private fun updatePoint() {
         val selectedIndex = binding.vp2Custombanner.currentItem%adapter.topList.size
         for ((index, view) in viewList.withIndex()) {
-            val color = if (index == selectedIndex) "#FFFFFF" else "#A9A9A9"
-            (view.background as GradientDrawable).setColor(Color.parseColor(color))
+            val color = if (index == selectedIndex){
+                (view.background as GradientDrawable).setColor(Color.parseColor("#FFFFFF"))
+
+            }else{
+                (view.background as GradientDrawable).setColor(Color.parseColor("#A9A9A9"))
+            }
+
+
         }
     }
 
