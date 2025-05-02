@@ -110,7 +110,7 @@ class HomeActivity : AppCompatActivity() {
             if (it) {
                 rvAdapter.addLoadingFooter()
             } else {
-                rvAdapter.removeLoadingFooter()
+                viewModel.BeforeNews.value?.let { it1 -> rvAdapter.removeLoadingFooter(it1.date) }
             }
         }
 

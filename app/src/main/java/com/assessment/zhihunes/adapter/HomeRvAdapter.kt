@@ -1,21 +1,27 @@
 package com.assessment.zhihunes.adapter
 
 import android.content.Context
+import android.os.Build
 import android.provider.MediaStore.Images
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.assessment.zhihunes.R
 import com.assessment.zhihunes.customview.custombanner.CustomBanner
 import com.assessment.zhihunes.databinding.CustomBannerBinding
+import com.assessment.zhihunes.databinding.ItemDateBinding
 import com.assessment.zhihunes.databinding.ItemFooterLoadingBinding
 import com.assessment.zhihunes.databinding.ItemRvBannerBinding
 import com.assessment.zhihunes.databinding.ItemRvNewsBinding
 import com.assessment.zhihunes.domain.BeforeNews
+import com.assessment.zhihunes.domain.HomeRVData
 import com.assessment.zhihunes.domain.StoryBefore
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * description ： Home页Rv的Adapter
@@ -31,7 +37,7 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
         this.homeBannerAdapter= homeBannerAdapter
     }
 
-    private val dataList = mutableListOf<StoryBefore?>(null)
+    private val dataList = mutableListOf<HomeRVData?>(null)
     //用null表示 footer的加载中
 
 
@@ -39,6 +45,7 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
         val NEWS_VIEW = 0
         val LOADING_VIEW = 1
         val BANNER_VIEW = 2
+        val DATE_VIEW = 3
     }
 
 
@@ -48,7 +55,9 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
      */
     fun addNews(news: List<StoryBefore>) {
         val start = dataList.size
-        dataList.addAll(news)
+        news.forEach {
+            dataList.add(HomeRVData.News(it))
+        }
         notifyItemRangeInserted(start, news.size)
     }
 
@@ -64,19 +73,21 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
     /**
      * 移除加载
      */
-    fun removeLoadingFooter() {
+    fun removeLoadingFooter(date:String) {
         val index = dataList.indexOfLast { it == null }//获取加载项在list的位置
         if (index != -1) {
-            dataList.removeAt(index)//在列表中移除加载项
-            notifyItemRemoved(index)//通知更新
+            dataList[index] = HomeRVData.DateSeparator(date)//在列表中移除加载项,加入日期
+            notifyItemChanged(index)//通知更新
         }
 
     }
 
     override fun getItemViewType(position: Int): Int {
         if (position==0) return BANNER_VIEW
+        if (dataList[position] is HomeRVData.DateSeparator) return DATE_VIEW
         if (dataList[position] == null && position !=0) return  LOADING_VIEW else return  NEWS_VIEW
         //如果获取到的元素是null则说明是loading图，否则则是新闻
+
 
     }
 
@@ -84,6 +95,7 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
         return when(viewType){
             NEWS_VIEW -> return NewsViewHolder(ItemRvNewsBinding.inflate(LayoutInflater.from(parent.context),parent,false))
             LOADING_VIEW ->return  LoadingViewHolder(ItemFooterLoadingBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+            DATE_VIEW -> return DateViewHolder(ItemDateBinding.inflate(LayoutInflater.from(parent.context),parent,false))
             else ->return  BannerViewHolder(ItemRvBannerBinding.inflate(LayoutInflater.from(parent.context),parent,false))
         }
 
@@ -92,12 +104,16 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
 
     override fun getItemCount(): Int =dataList.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is NewsViewHolder){
-            holder.bind(dataList[position]!!)
+            holder.bind((dataList[position]!!as HomeRVData.News).data )
         }
         if (holder is BannerViewHolder){
             holder.bind(homeBannerAdapter!!)
+        }
+        if (holder is DateViewHolder){
+            holder.bind((dataList[position]!!as HomeRVData.DateSeparator).data)
         }
 
     }
@@ -143,6 +159,18 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
 
         fun bind(adapter:HomeBannerAdapter){
             banner.setData(adapter)
+        }
+    }
+
+    inner class DateViewHolder(private val binding: ItemDateBinding): RecyclerView.ViewHolder(binding.root){
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(date: String){
+            val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
+            val date = LocalDate.parse(date, formatter)
+            val month = date.monthValue  // 获取数字月份：5
+            val day = date.dayOfMonth    // 获取日：2
+            binding.date.text = "${month}月${day}日"
         }
     }
 
