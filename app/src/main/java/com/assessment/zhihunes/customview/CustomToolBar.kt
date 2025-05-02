@@ -33,8 +33,6 @@ class CustomToolBar @JvmOverloads constructor(
         binding=CustomToolbarBinding.inflate(inflater,this,true)
         setHello(binding.tvToolbarHello)
         setDate(DateUtils.getCurrentDate())
-
-
     }
 
 

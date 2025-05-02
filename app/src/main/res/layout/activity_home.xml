@@ -4,13 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="#FFFFFF"
     android:layout_height="match_parent"
     tools:context=".view.HomeActivity">
     <com.assessment.zhihunes.customview.CustomToolBar
+        android:id="@+id/toolbar_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <com.assessment.zhihunes.customview.custombanner.CustomBanner
+        android:id="@+id/banner_home"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+
+    </com.assessment.zhihunes.customview.custombanner.CustomBanner>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

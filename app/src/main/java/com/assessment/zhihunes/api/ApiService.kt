@@ -1,5 +1,10 @@
 package com.assessment.zhihunes.api
 
+import LatestNews
+import com.assessment.zhihunes.domain.BeforeNews
+import com.assessment.zhihunes.domain.ExtraStory
+import com.assessment.zhihunes.domain.LongComments
+import com.assessment.zhihunes.domain.ShortComments
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -18,7 +23,7 @@ interface ApiService {
      * 获取最新消息
      */
     @GET("news/latest")
-    suspend fun getLatestNews()
+    suspend fun getLatestNews():LatestNews
 
 
     /**
@@ -26,7 +31,7 @@ interface ApiService {
      * @param date 时间
      */
     @GET("before/{date}")
-    suspend fun getNewsByDate(@Path("date") date:String)
+    suspend fun getNewsByDate(@Path("date") date:String):BeforeNews
 
 
     /**
@@ -34,14 +39,14 @@ interface ApiService {
      * @param id 文章id
      */
     @GET("story-extra/{id}")
-    suspend fun getExtraStory(@Path("id") id:Long)
+    suspend fun getExtraStory(@Path("id") id:Long):ExtraStory
 
     /**
      * 获取长评论
      * @param id 文章id
      */
     @GET("story/{id}/long-comments")
-    suspend fun getLongComments(@Path("id") id:Long)
+    suspend fun getLongComments(@Path("id") id:Long):LongComments
 
 
     /**
@@ -49,7 +54,7 @@ interface ApiService {
      * @param id 文章id
      */
     @GET("story/{id}/short-comments")
-    suspend fun getShortComments(@Path("id") id:Long)
+    suspend fun getShortComments(@Path("id") id:Long):ShortComments
 
 
 
