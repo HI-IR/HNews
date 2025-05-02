@@ -15,21 +15,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <com.assessment.zhihunes.customview.custombanner.CustomBanner
-        android:id="@+id/banner_home"
-        android:layout_width="match_parent"
-        android:layout_height="404dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        >
-    </com.assessment.zhihunes.customview.custombanner.CustomBanner>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/banner_home"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_home"
         app:layout_constraintBottom_toBottomOf="parent">
     </androidx.recyclerview.widget.RecyclerView>
 

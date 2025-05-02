@@ -33,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
         initTranslucentBars()
         initViewModel()
         initData()
-        initView()
+
         initEvent()
     }
 
@@ -99,7 +99,8 @@ class HomeActivity : AppCompatActivity() {
             if (adapter == null) {
                 //如果适配器没被初始化则初始化并且设置适配器
                 adapter = HomeBannerAdapter(it.top_stories, this@HomeActivity)
-                binding.bannerHome.setData(adapter!!)
+                rvAdapter.sethomeBannerAdapter(adapter!!)
+                initView()
             } else {
                 adapter!!.notifyDataSetChanged()
             }

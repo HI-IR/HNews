@@ -3,12 +3,14 @@ package com.assessment.zhihunes.adapter
 import android.content.Context
 import android.provider.MediaStore.Images
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat.NestedScrollType
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.assessment.zhihunes.R
+import com.assessment.zhihunes.customview.custombanner.CustomBanner
+import com.assessment.zhihunes.databinding.CustomBannerBinding
 import com.assessment.zhihunes.databinding.ItemFooterLoadingBinding
+import com.assessment.zhihunes.databinding.ItemRvBannerBinding
 import com.assessment.zhihunes.databinding.ItemRvNewsBinding
 import com.assessment.zhihunes.domain.BeforeNews
 import com.assessment.zhihunes.domain.StoryBefore
@@ -23,14 +25,20 @@ import com.bumptech.glide.request.RequestOptions
  */
 class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val dataList = mutableListOf<StoryBefore?>()
+    private var homeBannerAdapter: HomeBannerAdapter? = null
+
+    fun sethomeBannerAdapter(homeBannerAdapter:HomeBannerAdapter){
+        this.homeBannerAdapter= homeBannerAdapter
+    }
+
+    private val dataList = mutableListOf<StoryBefore?>(null)
     //用null表示 footer的加载中
 
 
     companion object {
         val NEWS_VIEW = 0
         val LOADING_VIEW = 1
-        val BANNER_VIEW =2
+        val BANNER_VIEW = 2
     }
 
 
@@ -66,18 +74,20 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
     }
 
     override fun getItemViewType(position: Int): Int {
-
+        if (position==0) return BANNER_VIEW
+        if (dataList[position] == null && position !=0) return  LOADING_VIEW else return  NEWS_VIEW
         //如果获取到的元素是null则说明是loading图，否则则是新闻
-        return if (dataList[position] == null) LOADING_VIEW else NEWS_VIEW
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        //根据viewType创建对应的ViewHolder
-        return if (viewType == NEWS_VIEW){
-            NewsViewHolder(ItemRvNewsBinding.inflate(LayoutInflater.from(parent.context),parent,false))}
-        else{
-            LoadingViewHolder(ItemFooterLoadingBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return when(viewType){
+            NEWS_VIEW -> return NewsViewHolder(ItemRvNewsBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+            LOADING_VIEW ->return  LoadingViewHolder(ItemFooterLoadingBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+            else ->return  BannerViewHolder(ItemRvBannerBinding.inflate(LayoutInflater.from(parent.context),parent,false))
         }
+
+        //根据viewType创建对应的ViewHolder
     }
 
     override fun getItemCount(): Int =dataList.size
@@ -86,6 +96,10 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
         if (holder is NewsViewHolder){
             holder.bind(dataList[position]!!)
         }
+        if (holder is BannerViewHolder){
+            holder.bind(homeBannerAdapter!!)
+        }
+
     }
 
 
@@ -122,6 +136,14 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
 
     inner class LoadingViewHolder(binding: ItemFooterLoadingBinding): RecyclerView.ViewHolder(binding.root){
 
+    }
+
+    inner class BannerViewHolder(private val binding: ItemRvBannerBinding): RecyclerView.ViewHolder(binding.root){
+        val banner = binding.banner
+
+        fun bind(adapter:HomeBannerAdapter){
+            banner.setData(adapter)
+        }
     }
 
 
