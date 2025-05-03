@@ -18,6 +18,7 @@ import com.assessment.zhihunes.databinding.ItemRvNewsBinding
 import com.assessment.zhihunes.domain.BeforeNews
 import com.assessment.zhihunes.domain.HomeRVData
 import com.assessment.zhihunes.domain.StoryBefore
+import com.assessment.zhihunes.view.DetailActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import java.time.LocalDate
@@ -128,8 +129,8 @@ class HomeRvAdapter(private val context: Context) : RecyclerView.Adapter<Recycle
         //定义点击事件
         fun initClick(){
             mItem.setOnClickListener{
-                //留下一个接口，待完善跳转功能
-                //TODO
+                DetailActivity.startActivity(context,(dataList[this.position] as HomeRVData.News).data.id)
+                //TODO(定义点击事件接口)
             }
         }
 

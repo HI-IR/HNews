@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * description ： TODO:类的作用
+ * description ： 网络访问
  * author : HI-IR
  * email : qq2420226433@outlook.com
  * date : 2025/5/1 20:13

@@ -14,10 +14,10 @@ data class BeforeNews(
 data class StoryBefore(
     val ga_prefix: String,
     val hint: String,
-    val id: Int,
+    val id: Long,
     val image_hue: String,
     val images: List<String>,
     val title: String,
     val type: Int,
-    val url: String
+    val url: String //url
 )
