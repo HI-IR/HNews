@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.assessment.zhihunes.R
 import com.assessment.zhihunes.databinding.ItemBannerBinding
+import com.assessment.zhihunes.view.TopDetailActivity
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -46,5 +47,15 @@ class HomeBannerAdapter(val topList:List<TopStory>, private val context: Context
         val mTitle = binding.tvCustombannerTitle
         val mAuthor = binding.tvCustombannerAuthor
         val mImage = binding.imgCustombannerItem
+
+        fun initClick(){
+            mImage.setOnClickListener{
+                TopDetailActivity.startActivity(context,topList[position%topList.size].id)
+            }
+        }
+        init {
+            initClick()
+        }
+
     }
 }

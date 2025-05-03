@@ -1,7 +1,6 @@
 package com.assessment.zhihunes.adapter
 
 import android.annotation.SuppressLint
-import android.media.RouteListingPreference.Item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.webkit.WebSettings
@@ -9,8 +8,8 @@ import android.webkit.WebViewClient
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.assessment.zhihunes.databinding.ItemWebBinding
-import com.assessment.zhihunes.view.DetailActivity
-import com.assessment.zhihunes.viewmodel.DetailViewModel
+import com.assessment.zhihunes.databinding.PlaceHolderBinding
+import com.assessment.zhihunes.viewmodel.NewDetailViewModel
 
 
 /**
@@ -19,43 +18,71 @@ import com.assessment.zhihunes.viewmodel.DetailViewModel
  * email : qq2420226433@outlook.com
  * date : 2025/5/3 00:52
  */
-class DetailAdapter(private val viewModel: DetailViewModel): RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
+class DetailAdapter(private val viewModel: NewDetailViewModel) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
+    companion object {
+        val NEWS_VIEW = 0
+        val LOADING_VIEW = 3
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding = ItemWebBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        val viewHolder = ViewHolder(binding)
-        return viewHolder
+        return when (viewType) {
+            NEWS_VIEW -> NewsViewHolder(
+                ItemWebBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+
+            else -> LoadingViewHodle(
+                PlaceHolderBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }
     }
 
     override fun getItemCount(): Int {
 
-        return viewModel.BeforeNewsList.value?.size ?: 0
+        return viewModel.adapterDataList.value?.size ?: 0
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (viewModel.adapterDataList.value!![position] == null) LOADING_VIEW else NEWS_VIEW
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        //当目前显示的数据是最后一个数据的时候，通过网络访问加载新的新闻
-        if (position == itemCount-1){
-            viewModel.loadNews()
+        if (holder is NewsViewHolder) {
+            holder.bind(viewModel.adapterDataList.value!![position]!!.url)
         }
 
-        viewModel.BeforeNewsList.value?.get(position)?.let { holder.bind(it.url) }
 
     }
 
 
-
-    inner class ViewHolder(private val binding: ItemWebBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class NewsViewHolder(private val binding: ItemWebBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetJavaScriptEnabled")
-        fun bind(mUrl: String){
-            with(binding.webview){
+        fun bind(mUrl: String) {
+            with(binding.webview) {
                 settings.cacheMode = WebSettings.LOAD_NO_CACHE
                 settings.javaScriptEnabled = true
                 webViewClient = WebViewClient()
                 loadUrl(mUrl)
             }
         }
+    }
+
+    inner class LoadingViewHodle(private val binding: PlaceHolderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
     }
 }
 
