@@ -63,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
             //TODO(分享等待实现))
         }
         binding.bottomtoolbar.setOnCommentsClickListener {
-            //TODO(评论等待)
+            CommentsActivity.startActivity(this,id,viewModel.currentExtraStory.value!!.comments)
         }
         binding.bottomtoolbar.setOnPopularityClickListener {
             //TODO(点赞)
@@ -110,6 +110,7 @@ class DetailActivity : AppCompatActivity() {
                 }
 
                 if(position!=0 && position!= viewModel.adapterDataList.value!!.size -1){
+                    id = viewModel.adapterDataList.value!![position]!!.id
                     viewModel.getExtraStory(viewModel.adapterDataList.value!![position]!!.id)
                 }
 

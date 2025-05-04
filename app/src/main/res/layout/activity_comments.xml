@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".view.CommentsActivity">
+    tools:context=".view.CommentsActivity"
+    android:fitsSystemWindows="true">
     <LinearLayout
         android:id="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,11 +25,12 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:id="@+id/title_counts"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/view"
-        android:textSize="21dp"
+        android:textSize="18dp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,6 +46,7 @@
         android:id="@+id/counts"
         android:textColor="#1F1F1F"
         android:padding="8dp"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/view"

@@ -3,6 +3,7 @@ package com.assessment.zhihunes.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -29,7 +30,8 @@ class TopDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        id = intent.getLongExtra("id",-1)
+        id = intent.getIntExtra("id",-1).toLong()
+        Log.d("TopLd","${id} ->2");
         initViewModel()
         initEvent()
     }
@@ -38,9 +40,14 @@ class TopDetailActivity : AppCompatActivity() {
         binding.vp2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                id = viewModel.TopStory.value!![position]!!.id.toLong()
                 viewModel.getExtraStory(viewModel.TopStory.value!![position]!!.id)
             }
         })
+        binding.bottomtoolbar.setOnCommentsClickListener{
+            Log.d("TopLd","${id}");
+            CommentsActivity.startActivity(this,id,viewModel.currentExtraStory.value!!.comments)
+        }
 
     }
 
