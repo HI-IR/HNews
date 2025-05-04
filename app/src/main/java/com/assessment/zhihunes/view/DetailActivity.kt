@@ -151,10 +151,14 @@ class DetailActivity : AppCompatActivity() {
         viewModel.isLoadingNext.observe(this) {
             if (!it) {
                 adapter!!.notifyItemRangeChanged(1, viewModel.netDataList.value!!.stories.size)
-                if (viewModel.netDataList.value!!.date == DateUtils.formateDate(DateUtils.getCurrentDate())){
+                if (viewModel.netDataList.value!!.date.toLong()+1 != viewModel.showDate.value!!.toLong()){
+                    Log.d("date", DateUtils.formateDate(viewModel.netDataList.value!!.date));
+                    Log.d("date", "${viewModel.showDate.value}");
                     Toast.makeText(this,"没有更多咯",Toast.LENGTH_SHORT).show()
                     viewModel.loadPrevDay()
                 }else{
+                    Log.d("date2", viewModel.netDataList.value!!.date);
+                    Log.d("date2", "${viewModel.showDate.value}");
                     binding.vp2.setCurrentItem(viewModel.adapterDataList.value!!.size - 2, false)
 
                 }

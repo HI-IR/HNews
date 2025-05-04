@@ -82,7 +82,7 @@ class HomeRvAdapter(private val context: Context) :
     override fun getItemViewType(position: Int): Int {
         if (position == 0) return BANNER_VIEW
         if (dataList[position] is HomeRVData.DateSeparator) return DATE_VIEW
-        if (dataList[position] == null && position != 0) return LOADING_VIEW else return NEWS_VIEW
+        if (dataList[position] == null ) return LOADING_VIEW else return NEWS_VIEW
         //如果获取到的元素是null则说明是loading图，否则则是新闻
 
 

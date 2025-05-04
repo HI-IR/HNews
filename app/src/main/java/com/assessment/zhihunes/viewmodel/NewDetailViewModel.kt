@@ -41,7 +41,7 @@ class NewDetailViewModel: ViewModel() {
     引入缓存机制，缓存当前新闻的日期新闻
      */
     //日期信息
-    private val showDate: MutableLiveData<String> = MutableLiveData()
+     val showDate: MutableLiveData<String> = MutableLiveData()
 
 
     //是否在加载中
