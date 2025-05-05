@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/background_color"
     android:layout_height="match_parent">
 
 
@@ -11,7 +11,7 @@
         android:id="@+id/v_toolbar_line"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:background="#dbdbdb"
+        android:background="@color/line"
         app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,7 +19,7 @@
         app:layout_constraintHeight_percent="0.6"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="#FFFFFF"
+        android:background="@color/background_color"
         android:id="@+id/cl_toolbar_date"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
 
 
         <TextView
-            android:background="#FFFFFF"
+            android:background="@color/background_color"
             android:id="@+id/tv_toolbar_date2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
