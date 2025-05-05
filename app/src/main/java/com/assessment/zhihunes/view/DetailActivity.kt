@@ -12,15 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.assessment.zhihunes.adapter.DetailAdapter
+import com.assessment.zhihunes.customview.CustomShare
 import com.assessment.zhihunes.databinding.ActivityDetailBinding
+import com.assessment.zhihunes.utils.CopyUtils
 import com.assessment.zhihunes.utils.DateUtils
+import com.assessment.zhihunes.utils.ShareUtils
 import com.assessment.zhihunes.viewmodel.NewDetailViewModel
 
 
 class DetailActivity : AppCompatActivity() {
     private var date: String = ""
     private var id: Long = -1
-    private var disableSwipe = false
     private val binding: ActivityDetailBinding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
     }
@@ -54,13 +56,68 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun initEvent() {
-        var startX = 0f
-        var isInteracting = false
+
         binding.bottomtoolbar.setOnBackClickListener { finish() }
         binding.bottomtoolbar.setOnShareClickListener {
-            //TODO(分享等待实现))
+            val customShare: CustomShare = CustomShare(this)
+
+            // 设置不同分享渠道的点击监听器
+            customShare.setOnQqClickListener {
+                var link =""
+                //寻找到当前页的链接，并复制
+                viewModel.netDataList.value!!.stories.forEach {
+                    if (it.id.toLong() == id){
+                        link = it.url
+                    }
+                }
+                ShareUtils.shareToQQ(this@DetailActivity,link)
+                customShare.dismiss()
+            }
+
+            customShare.setOnWxClickListener {
+                var link =""
+                //寻找到当前页的链接，并复制
+                viewModel.netDataList.value!!.stories.forEach {
+                    if (it.id.toLong() == id){
+                        link = it.url
+                    }
+                }
+                ShareUtils.shareToWX(this@DetailActivity,link)
+                customShare.dismiss()
+            }
+
+            customShare.setOnLinkClickListener {
+
+                //寻找到当前页的链接，并复制
+                viewModel.netDataList.value!!.stories.forEach {
+                    if (it.id.toLong() == id){
+                        CopyUtils.copy(this@DetailActivity ,it.url)
+                    }
+                }
+
+                Toast.makeText(this, "已复制链接", Toast.LENGTH_SHORT).show()
+
+                customShare.dismiss()
+            }
+
+            customShare.setOnBrowseClickListener {
+                var link =""
+                //寻找到当前页的链接，并复制
+                viewModel.netDataList.value!!.stories.forEach {
+                    if (it.id.toLong() == id){
+                        link = it.url
+                    }
+                }
+                ShareUtils.shareToQQ(this@DetailActivity,link)
+                customShare.dismiss()
+            }
+
+            // 显示对话框
+            customShare.show()
+
+
+
         }
         binding.bottomtoolbar.setOnCommentsClickListener {
             CommentsActivity.startActivity(this,id,viewModel.currentExtraStory.value!!.comments)
@@ -72,24 +129,6 @@ class DetailActivity : AppCompatActivity() {
             //TODO(收藏)
         }
 
-
-
-        binding.vp2.getChildAt(0).setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    startX = event.x
-                    isInteracting = false
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val deltaX = event.x - startX
-                    if (!isInteracting && deltaX > 20 && binding.vp2.currentItem == 1 && disableSwipe) {
-                        isInteracting = true
-                        return@setOnTouchListener true
-                    }
-                }
-            }
-            false // 不拦截其他滑动（如左滑）
-        }
 
 
 

@@ -61,7 +61,6 @@ class TopDetailActivity : AppCompatActivity() {
 
         //分享的点击事件
         binding.bottomtoolbar.setOnShareClickListener {
-            //TODO(分享等待实现))
             val customShare: CustomShare = CustomShare(this)
 
             // 设置不同分享渠道的点击监听器
