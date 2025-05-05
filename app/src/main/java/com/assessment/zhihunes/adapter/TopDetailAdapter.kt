@@ -11,7 +11,7 @@ import com.assessment.zhihunes.databinding.PlaceHolderBinding
 import com.assessment.zhihunes.viewmodel.TopDetailViewModel
 
 /**
- * description ： TODO:类的作用
+ * description ： 轮播图的VP2适配器
  * author : HI-IR
  * email : qq2420226433@outlook.com
  * date : 2025/5/3 22:14

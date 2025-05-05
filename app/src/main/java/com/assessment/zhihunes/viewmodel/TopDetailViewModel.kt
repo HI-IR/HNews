@@ -32,6 +32,7 @@ class TopDetailViewModel: ViewModel() {
         _TopList.value = list
     }
 
+    //获取轮播图信息,初始化信息
     fun getTopInfo(){
         viewModelScope.launch {
             model.doGetLatestNews({
